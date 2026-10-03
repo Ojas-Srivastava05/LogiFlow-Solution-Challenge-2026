@@ -1,0 +1,17 @@
+# LogiFlow API — Zoho Catalyst AppSail variant.
+# AppSail times out every request at 30s, so compose/comparator/rail budgets are clamped below that.
+# Build the base image first (see scripts/deploy-zoho-catalyst.sh).
+ARG BASE_IMAGE=logiflow-api:base
+FROM ${BASE_IMAGE}
+
+ENV COMPOSE_LEG_SUPABASE=1 \
+    RURAL_HUB_SUPABASE=1 \
+    COMPOSE_PARALLEL_WORKERS=8 \
+    RAIL_ENGINEER_MAX_EXTERNAL_LOOKUPS=1 \
+    COMPOSE_BUDGET_S=22 \
+    COMPOSE_MAX_BUDGET_S=22 \
+    COMPOSE_RAIL_API_BUDGET_S=8 \
+    HYBRID_PIPELINE_TIMEOUT_S=22 \
+    RAIL_OPTIMIZE_RESPONSE_BUDGET_S=18 \
+    RAIL_API_PAIR_BUDGET_S=15 \
+    RAIL_LLM_EXPLANATION_TIMEOUT_S=4

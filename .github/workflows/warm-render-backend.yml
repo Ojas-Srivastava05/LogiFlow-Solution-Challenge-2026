@@ -1,6 +1,6 @@
 # Keeps the backend warm. Pings every 5 minutes (GitHub cron minimum granularity).
 # REQUIRED: repo secret BACKEND_URL — set to:
-#   https://logiflow-api-sbexkjk72q-el.a.run.app
+#   https://logiflow-50046515745.development.catalystappsail.in
 # Without that secret this workflow exits immediately and does nothing.
 name: Warm backend
 

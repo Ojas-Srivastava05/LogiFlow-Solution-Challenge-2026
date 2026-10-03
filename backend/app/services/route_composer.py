@@ -22,7 +22,9 @@ from app.services.transfer_detail import build_transfer_detail, enrich_leg
 from app.services.pipeline_registry import get_pipeline
 from app.utils.request_context import RequestContext
 
-_COMPOSE_BUDGET_S = 75
+_COMPOSE_BUDGET_S = int(os.getenv("COMPOSE_BUDGET_S", "75"))
+# Hosts with a hard request cap (Catalyst AppSail: 30s) must clamp client-requested budgets.
+_COMPOSE_MAX_BUDGET_S = int(os.getenv("COMPOSE_MAX_BUDGET_S", "180"))
 _SHORT_CORRIDOR_KM = 200
 _HANDLING_FEE_INR = 250
 _MODE_FAIL_SKIP_AFTER = 2
@@ -344,7 +346,7 @@ class RouteComposer:
         opts = payload.get("compose_options") or {}
         max_hubs = min(3, int(opts.get("max_hubs", 2)))
         include_heavy = bool(opts.get("include_road_water", False))
-        budget_s = min(180, int(opts.get("budget_seconds", _COMPOSE_BUDGET_S)))
+        budget_s = min(_COMPOSE_MAX_BUDGET_S, int(opts.get("budget_seconds", _COMPOSE_BUDGET_S)))
         deadline = time.monotonic() + budget_s
 
         excluded = set(

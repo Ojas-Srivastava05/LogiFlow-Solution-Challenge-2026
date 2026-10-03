@@ -1,4 +1,6 @@
 # This pipeline combines road, rail, air, and water results, then attaches Gemini-backed natural-language explainability.
+import os
+import time
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 from app.services.pipeline_registry import get_pipeline
 from app.utils.request_context import RequestContext
@@ -21,7 +23,7 @@ _PRIORITY_ALIASES = {
     "balanced": "balanced",
 }
 
-_PIPELINE_TIMEOUT_S = 30
+_PIPELINE_TIMEOUT_S = float(os.getenv("HYBRID_PIPELINE_TIMEOUT_S", "30"))
 
 
 class HybridPipeline:
@@ -53,7 +55,9 @@ class HybridPipeline:
                 print(f"[HYBRID ERROR] {name} pipeline failed: {e}")
                 return {}
 
-        with ThreadPoolExecutor(max_workers=4) as executor:
+        # Not a `with` block: its exit waits for every straggler, which would defeat the timeout.
+        executor = ThreadPoolExecutor(max_workers=4)
+        try:
             futures = {
                 "road": executor.submit(safe_call, road_pipeline, "road"),
                 "rail": executor.submit(safe_call, rail_pipeline, "rail"),
@@ -63,10 +67,11 @@ class HybridPipeline:
 
             results = {}
             timed_out_modes = []
+            deadline = time.monotonic() + _PIPELINE_TIMEOUT_S
 
             for name, future in futures.items():
                 try:
-                    results[name] = future.result(timeout=_PIPELINE_TIMEOUT_S)
+                    results[name] = future.result(timeout=max(0.0, deadline - time.monotonic()))
                     if results[name]:
                         print(f"[HYBRID SUCCESS] {name} returned data")
                     else:
@@ -79,6 +84,8 @@ class HybridPipeline:
                 except Exception as e:
                     print(f"[HYBRID ERROR] {name} execution error: {e}")
                     results[name] = {}
+        finally:
+            executor.shutdown(wait=False, cancel_futures=True)
 
         road_res = results.get("road", {})
         rail_res = results.get("rail", {})

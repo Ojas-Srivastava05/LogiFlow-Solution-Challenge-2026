@@ -2,7 +2,7 @@
 
 FastAPI application for multi-modal cargo route optimization.
 
-**Production:** https://logiflow-api-sbexkjk72q-el.a.run.app (GCP Cloud Run, asia-south1)
+**Production:** https://logiflow-50046515745.development.catalystappsail.in (Zoho Catalyst AppSail, IN DC)
 
 ---
 
@@ -48,7 +48,7 @@ backend/
 ├── data/                    # airports · routes · PortWatch · delay scrape
 ├── scripts/                 # ML training · Supabase sync · scrapers
 ├── tests/                   # pytest suite
-├── Dockerfile               # Cloud Run image
+├── Dockerfile               # API image (Dockerfile.appsail adds AppSail time budgets)
 └── Makefile                 # dev · sync · audit commands
 ```
 

@@ -3,7 +3,7 @@
 | Environment | Base URL |
 |-------------|----------|
 | Local | `http://localhost:8000` |
-| Production (GCP Cloud Run) | `https://logiflow-api-sbexkjk72q-el.a.run.app` |
+| Production (Zoho Catalyst AppSail) | `https://logiflow-50046515745.development.catalystappsail.in` |
 
 Frontend browser traffic uses same-origin proxy: `/api/backend/*` → backend.
 

@@ -5,12 +5,13 @@
 | Component | Platform | URL |
 |-----------|----------|-----|
 | **Frontend** | Vercel | https://logi-flow-solution-challenge-2026.vercel.app |
-| **Backend API** | GCP Cloud Run (asia-south1) | https://logiflow-api-sbexkjk72q-el.a.run.app |
+| **Frontend (mirror)** | Zoho Catalyst AppSail (`logiflow-web`) | https://logiflow-web-50046515745.development.catalystappsail.in |
+| **Backend API** | Zoho Catalyst AppSail (`logiflow`) | https://logiflow-50046515745.development.catalystappsail.in |
 | **Database (planner)** | Postgres (production) or SQLite (local) | via `DATABASE_URL` |
 | **Cache / geometry** | Supabase + optional Redis | https://mwvohdvtxwltzkyuboaz.supabase.co |
-| **Custom domain** | Optional (DNS only) | e.g. `logiflow.in` → Vercel; API via Cloud Run URL or GCP Load Balancer |
+| **Custom domain** | Optional (DNS only) | e.g. `logiflow.in` → Vercel; API via the AppSail URL |
 
-**Primary backend deploy path:** [gcp-deployment.md](./gcp-deployment.md)
+**Primary backend deploy path:** [Zoho Catalyst AppSail](#backend--frontend-zoho-catalyst-appsail--current) below. The previous GCP Cloud Run setup ([gcp-deployment.md](./gcp-deployment.md)) is offline (billing disabled).
 
 **Legacy:** Cloudflare Workers proxy removed — see [cloudflare-legacy.md](./miscellaneous/cloudflare-legacy.md).
 
@@ -33,7 +34,30 @@ LogiFlow is **not “DDoS-proof”** (no public site is), but layers below prote
 
 ---
 
-## Backend (GCP Cloud Run) — recommended
+## Backend + frontend (Zoho Catalyst AppSail) — current
+
+Both services run as custom Docker images on AppSail (project `Logiflow`, IN data center, Development environment).
+
+```bash
+# one-time: npm i -g zcatalyst-cli && catalyst login --dc in
+./scripts/deploy-zoho-catalyst.sh            # backend (logiflow) + frontend (logiflow-web)
+DEPLOY_WEB=0 ./scripts/deploy-zoho-catalyst.sh   # backend only
+python3 scripts/smoke_test_api.py https://logiflow-50046515745.development.catalystappsail.in --max-seconds 30
+```
+
+| Setting | Value |
+|---------|-------|
+| Request timeout | **30s hard cap** — budgets lowered to ~22s in `backend/Dockerfile.appsail` |
+| Memory / disk | 2048 MB / 256 MB |
+| Idle behaviour | Instances stop after 5 min idle (no min instances) — keep-alive workflow pings `/health` |
+| Port | `X_ZOHO_CATALYST_LISTEN_PORT` (8080) |
+| Env vars | Set in Catalyst console → AppSail → service → Configuration (not read from `app-config.json` for Docker deploys) |
+
+Frontend image: `frontend/Dockerfile.appsail` builds a standalone Next.js server (`NEXT_OUTPUT_STANDALONE=1`); `NEXT_PUBLIC_*` values are baked in from `frontend/vercel.json` at build time.
+
+---
+
+## Backend (GCP Cloud Run) — previous (offline)
 
 ### Quick deploy
 
@@ -81,7 +105,7 @@ Secrets are loaded from `backend/.env` at deploy time by `deploy-gcp-cloud-run.s
 ### Health check
 
 ```bash
-curl https://logiflow-api-sbexkjk72q-el.a.run.app/health
+curl https://logiflow-50046515745.development.catalystappsail.in/health
 # → {"status":"ok"}
 ```
 
@@ -118,7 +142,7 @@ Render free tier sleeps after ~15 min idle (30–90s cold start). Use Cloud Run 
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `BACKEND_URL` | ✅ | Cloud Run API for server-side rewrites and warmup |
+| `BACKEND_URL` | ✅ | Backend API (Zoho Catalyst AppSail) for server-side rewrites and warmup |
 | `NEXT_PUBLIC_API_URL` | ✅ | Same URL for SSR fallback |
 | `NEXT_PUBLIC_COMPOSE_URL` | ✅ | Direct compose URL (long hybrid runs) |
 | `GOOGLE_CLIENT_ID` | ✅ | Google Sign-In (server-readable) |
@@ -148,7 +172,7 @@ Production values are baked into `frontend/vercel.json`. After changing env vars
 | Route | Purpose |
 |-------|---------|
 | `POST /api/compose` | Long-running compose proxy (90s `maxDuration`) |
-| `GET /api/warm-backend` | Wakes Cloud Run; optional rail preload (`?lite=1` skips) |
+| `GET /api/warm-backend` | Wakes the backend; optional rail preload (`?lite=1` skips) |
 
 ### Verify Supabase direct reads
 
@@ -217,7 +241,7 @@ const config: CapacitorConfig = {
   appName: 'LogiFlow',
   webDir: 'out',
   server: {
-    url: 'https://logiflow-api-sbexkjk72q-el.a.run.app',
+    url: 'https://logiflow-50046515745.development.catalystappsail.in',
     cleartext: true,
   }
 };
@@ -269,7 +293,8 @@ make prod-audit   # checks Cloud Run health + Vercel frontend
 
 | Platform | RAM | Timeout | Cold start | LogiFlow fit |
 |----------|-----|---------|------------|--------------|
-| **GCP Cloud Run** (team-3mo) | 2 GiB | 300s | ~0s (min 1) | ✅ **Production** |
+| **Zoho Catalyst AppSail** | 2 GiB | 30s | ~5s (stops after 5 min idle) | ✅ **Production** (budgets clamped to ~22s) |
+| GCP Cloud Run (team-3mo) | 2 GiB | 300s | ~0s (min 1) | ⏸ Previous production (billing disabled) |
 | GCP Cloud Run (free) | 1 GiB | 300s | ~5–15s | ✅ Student budget |
 | Render free | 512 MB | 30s | 30–90s | ❌ OOM on compose |
 | Render Starter | 512 MB+ | — | Always on | ✅ Simple alternative |

@@ -10,10 +10,11 @@
 https://github.com/kvb1201/LogiFlow-Solution-Challenge-2026
 
 **Updated Working Prototype Link**  
-https://logi-flow-solution-challenge-2026.vercel.app
+https://logi-flow-solution-challenge-2026.vercel.app  
+Zoho Catalyst mirror: https://logiflow-web-50046515745.development.catalystappsail.in
 
 **API health check (optional sub-link)**  
-https://logiflow-api-sbexkjk72q-el.a.run.app/health
+https://logiflow-50046515745.development.catalystappsail.in/health
 
 **Updated Demo Video Link (3 Minutes)**  
 `[PASTE YOUR YOUTUBE URL — max 3 minutes per updated rules]`

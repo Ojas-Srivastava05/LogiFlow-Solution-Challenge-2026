@@ -23,11 +23,12 @@
 
 [![Google Solution Challenge 2026](https://img.shields.io/badge/Google-Solution%20Challenge%202026-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://developers.google.com/solution-challenge)
 [![Live Demo](https://img.shields.io/badge/Web-Live%20on%20Vercel-000?style=for-the-badge&logo=vercel)](https://logi-flow-solution-challenge-2026.vercel.app/)
-[![Backend](https://img.shields.io/badge/API-GCP%20Cloud%20Run-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white)](https://logiflow-api-sbexkjk72q-el.a.run.app/health)
+[![Zoho Catalyst](https://img.shields.io/badge/Web-Live%20on%20Zoho%20Catalyst-E42527?style=for-the-badge&logo=zoho&logoColor=white)](https://logiflow-web-50046515745.development.catalystappsail.in/)
+[![Backend](https://img.shields.io/badge/API-Zoho%20Catalyst%20AppSail-E42527?style=for-the-badge&logo=zoho&logoColor=white)](https://logiflow-50046515745.development.catalystappsail.in/health)
 
 <br/>
 
-[**Try the app**](https://logi-flow-solution-challenge-2026.vercel.app/) · [**API health**](https://logiflow-api-sbexkjk72q-el.a.run.app/health) · [**Documentation**](./docs/) · [**Android APK**](https://drive.google.com/file/d/17uYe7_o_Sqc373dVvzrk8FUo48cbZ-ME/view?usp=drive_link)
+[**Try the app**](https://logi-flow-solution-challenge-2026.vercel.app/) · [**Zoho Catalyst mirror**](https://logiflow-web-50046515745.development.catalystappsail.in/) · [**API health**](https://logiflow-50046515745.development.catalystappsail.in/health) · [**Documentation**](./docs/) · [**Android APK**](https://drive.google.com/file/d/17uYe7_o_Sqc373dVvzrk8FUo48cbZ-ME/view?usp=drive_link)
 
 </div>
 
@@ -125,7 +126,7 @@ India moves **4.6 billion tonnes** of freight every year, yet most shippers stil
 |-------|----------------|
 | **Web & Android** | Next.js 16 app + Capacitor APK — planners, maps, comparator, saved trips |
 | **Edge (Vercel)** | Same-origin API proxy, compose streaming, backend warmup, Google Sign-In |
-| **API (Cloud Run)** | FastAPI orchestrator — one endpoint per mode plus hybrid, compose, and planner |
+| **API (Zoho Catalyst AppSail)** | FastAPI orchestrator — one endpoint per mode plus hybrid, compose, and planner |
 | **Pipelines** | Road · Rail · Air · Water — each with its own data sources and ML where it matters |
 | **Decision Intelligence** | Gemini intent parsing, Pareto ranking, delay/OTP models, route explanations, trade-off analysis |
 | **Data** | TomTom · RailRadar · OpenFlights · PortWatch · Supabase · Redis · Postgres |
@@ -179,7 +180,7 @@ India moves **4.6 billion tonnes** of freight every year, yet most shippers stil
 
 ## For developers
 
-**Stack:** Next.js 16 · React 19 · FastAPI · Python 3.11+ · Supabase · Redis · GCP Cloud Run · Vercel · Gemini 2.5 Flash
+**Stack:** Next.js 16 · React 19 · FastAPI · Python 3.11+ · Supabase · Redis · Zoho Catalyst AppSail · Vercel · Gemini 2.5 Flash
 
 <p align="center">
   <img src="https://skillicons.dev/icons?i=nextjs,react,python,fastapi,postgres,redis,googlecloud,vercel,tensorflow,git,github,docker" alt="Tech stack icons" />
@@ -202,12 +203,12 @@ npm run dev   # → http://localhost:3000
 | Documentation index | [docs/README.md](./docs/README.md) |
 | Architecture & API map | [docs/architecture.md](./docs/architecture.md) |
 | API request/response schemas | [docs/miscellaneous/api_contract.md](./docs/miscellaneous/api_contract.md) |
-| Deployment (Vercel · Cloud Run · APK) | [docs/deployment.md](./docs/deployment.md) |
+| Deployment (Vercel · Zoho Catalyst · APK) | [docs/deployment.md](./docs/deployment.md) |
 | Domain deep-dives (rail data, air OTP, intl routing, …) | [docs/miscellaneous/](./docs/miscellaneous/) |
 | Presentation kit (slides + diagrams) | [docs/ppt-info/](./docs/ppt-info/) |
 | All diagrams (PNG · SVG · Mermaid) | [docs/diagrams/](./docs/diagrams/) |
 
-**Production:** [logi-flow-solution-challenge-2026.vercel.app](https://logi-flow-solution-challenge-2026.vercel.app) · API [health](https://logiflow-api-sbexkjk72q-el.a.run.app/health)
+**Production:** [logi-flow-solution-challenge-2026.vercel.app](https://logi-flow-solution-challenge-2026.vercel.app) · [Zoho Catalyst mirror](https://logiflow-web-50046515745.development.catalystappsail.in) · API [health](https://logiflow-50046515745.development.catalystappsail.in/health)
 
 ---
 

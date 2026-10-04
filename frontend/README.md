@@ -3,7 +3,7 @@
 Next.js 16 App Router application for the LogiFlow multi-modal cargo logistics optimizer.
 
 **Live:** https://logi-flow-solution-challenge-2026.vercel.app  
-**Backend:** https://logiflow-api-sbexkjk72q-el.a.run.app (proxied via `/api/backend`)
+**Backend:** https://logiflow-50046515745.development.catalystappsail.in (proxied via `/api/backend`)
 
 ---
 
@@ -46,7 +46,7 @@ Next.js 16 App Router application for the LogiFlow multi-modal cargo logistics o
 | Route | File | Purpose |
 |-------|------|---------|
 | `POST /api/compose` | `app/api/compose/route.ts` | Long compose proxy (90s maxDuration) |
-| `GET /api/warm-backend` | `app/api/warm-backend/route.ts` | Wake Cloud Run + optional rail preload |
+| `GET /api/warm-backend` | `app/api/warm-backend/route.ts` | Wake the backend + optional rail preload |
 
 ---
 
@@ -128,7 +128,7 @@ Full Google Cloud optimization state: [docs/gcp-optimization.md](../docs/gcp-opt
 
 ## API proxying
 
-Browser requests never hit Cloud Run directly for most calls:
+Browser requests never hit the backend directly for most calls:
 
 - `/api/backend/*` → `{BACKEND_URL}/*`
 - `/api/auth/*` → `{BACKEND_URL}/auth/*`

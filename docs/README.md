@@ -12,8 +12,8 @@ Central index for all project documentation. Everything lives under `docs/` — 
 |----------|-------------|
 | [architecture.md](./architecture.md) | System overview, API map, data flow, production URLs |
 | [system-design.md](./system-design.md) | Design principles and scalability notes |
-| [deployment.md](./deployment.md) | Vercel, Cloud Run, env vars, Supabase sync, Android APK |
-| [gcp-deployment.md](./gcp-deployment.md) | Cloud Run setup and team deployment profile |
+| [deployment.md](./deployment.md) | Vercel, Zoho Catalyst AppSail, env vars, Supabase sync, Android APK |
+| [gcp-deployment.md](./gcp-deployment.md) | Previous Cloud Run setup (offline — billing disabled) |
 | [gcp-optimization.md](./gcp-optimization.md) | SEO, monitoring, optional GA4 — current state |
 
 ---

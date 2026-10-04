@@ -15,11 +15,11 @@ Vercel
   ├─ /api/planner/*     → backend /planner/*
   ├─ /api/backend/*     → backend /* (same-origin proxy)
   ├─ /api/compose       → long-running compose proxy (90s maxDuration)
-  ├─ /api/warm-backend  → wakes Cloud Run + optional rail preload
+  ├─ /api/warm-backend  → wakes the backend + optional rail preload
   └─ /railradar/*       → RailRadar live train API
       │
       ▼
-FastAPI (GCP Cloud Run · asia-south1)
+FastAPI (Zoho Catalyst AppSail · IN DC)
       │
       ├─ /road/optimize
       ├─ /railway/optimize · /railway/simulate
@@ -47,7 +47,8 @@ Data (TomTom · RailRadar · OpenFlights · PortWatch · Supabase · Redis · Po
 | Surface | URL |
 |---------|-----|
 | Frontend | https://logi-flow-solution-challenge-2026.vercel.app |
-| Backend API | https://logiflow-api-sbexkjk72q-el.a.run.app |
+| Frontend (Zoho Catalyst mirror) | https://logiflow-web-50046515745.development.catalystappsail.in |
+| Backend API | https://logiflow-50046515745.development.catalystappsail.in |
 | Custom domain (optional) | https://logiflow.in · https://api.logiflow.in |
 
 **Google Cloud optimization** (SEO, optional GA4, monitoring): [gcp-optimization.md](./gcp-optimization.md)
@@ -201,7 +202,7 @@ Local: SQLite (`sqlite+aiosqlite:///./logiflow.db`). Production: Postgres via `D
 | `airports` / `air_routes` / `otp_baselines` | Air pipeline reference data | Backend |
 | `compose_leg_cache` | Persisted compose leg results | Backend |
 
-Rail ML metrics bypass Cloud Run latency: the railway page reads `rail_ml_metrics` via `NEXT_PUBLIC_SUPABASE_URL` + anon key.
+Rail ML metrics bypass backend latency: the railway page reads `rail_ml_metrics` via `NEXT_PUBLIC_SUPABASE_URL` + anon key.
 
 ---
 
@@ -219,7 +220,7 @@ with ThreadPoolExecutor(max_workers=4) as executor:
         results[name] = future.result(timeout=30)
 ```
 
-Compose uses a separate parallel worker pool (`COMPOSE_PARALLEL_WORKERS`, default 8 on Cloud Run team-3mo profile).
+Compose uses a separate parallel worker pool (`COMPOSE_PARALLEL_WORKERS`, default 8 on AppSail).
 
 ---
 
@@ -249,8 +250,8 @@ L5: Static JSON        → frontend/public fallbacks (rail-ml-metrics.json)
 
 ## Reliability
 
-- Frontend warms Cloud Run via `/api/warm-backend` on load, tab focus, and every 3 minutes
+- Frontend warms the backend via `/api/warm-backend` on load, tab focus, and every 3 minutes
 - **Traffic queue** (`/waiting`): sessionStorage context + auto-resume on 429/503
-- Cloud Run **team-3mo** profile: min 1 instance, 2 CPU, 2Gi RAM, 300s timeout (always-warm for compose)
+- Zoho Catalyst AppSail: 2 GiB RAM, 30s request cap (compose/rail budgets clamped to ~22s), stops after 5 min idle
 - GitHub Actions deploys backend on `main` pushes to `backend/**`
 - Rail schedule preload off by default (`RAIL_PRELOAD_ON_STARTUP=false`)

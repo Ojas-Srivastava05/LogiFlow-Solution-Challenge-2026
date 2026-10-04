@@ -46,7 +46,8 @@ Content for the **Google Solution Challenge 2026** prototype deck (16 slides). U
 | Asset | URL |
 |-------|-----|
 | Working prototype | https://logi-flow-solution-challenge-2026.vercel.app |
-| API health | https://logiflow-api-sbexkjk72q-el.a.run.app/health |
+| Working prototype (Zoho Catalyst) | https://logiflow-web-50046515745.development.catalystappsail.in |
+| API health | https://logiflow-50046515745.development.catalystappsail.in/health |
 | GitHub | https://github.com/kvb1201/LogiFlow-Solution-Challenge-2026 |
 | Android APK | https://drive.google.com/file/d/11l_qnlY7JiAerHGyBcq2wIVn0NtWNXNl/view |
 
